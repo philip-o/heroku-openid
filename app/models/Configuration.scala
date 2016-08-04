@@ -24,21 +24,6 @@ object Configuration {
   implicit val formats = Json.format[Configuration]
 }
 
-case class ClientRequest(redirect_uris : Array[String],
-                              client_name: String,
-                              jwks_uri : String,
-                              id_token_signed_response_alg : String,
-                              id_token_encrypted_response_alg : String,
-                              id_token_encrypted_response_enc : String,
-                              userinfo_signed_response_alg : String,
-                              userinfo_encrypted_response_alg : String,
-                              userinfo_encrypted_response_enc : String
-                             )
-
-object ClientRequest {
-  implicit val format = Json.format[ClientRequest]
-}
-
 case class ClientRegistration(redirect_uris : Array[String],
                               client_name: String,
                               jwks_uri : String,
