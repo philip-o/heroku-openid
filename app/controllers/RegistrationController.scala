@@ -4,14 +4,13 @@ import java.util.UUID
 
 import models.ClientRegistration
 import play.api.Logger
-import play.api.mvc.BodyParsers.parse
 import play.api.libs.json.Json
 import play.api.mvc.Action
+import play.api.mvc.BodyParsers.parse
 import play.api.mvc.Results._
 import utils.OpenIDConnectUtil
 
 import scala.concurrent.Future
-import scala.util.Random
 
 trait RegistrationController extends JsonController {
 
@@ -27,7 +26,7 @@ trait RegistrationController extends JsonController {
             clientRequest.userinfo_encrypted_response_enc)
           validateClientRegistrationRequest(clientRegistration) match {
               case "valid" =>
-                val persist = clientRegistration.copy(client_id = Random.alphanumeric.toString)
+                val persist = clientRegistration.copy(client_id = UUID.randomUUID().toString)
                 OpenIDConnectUtil.clients.put(persist.client_id , persist)
                 Logger.info(s"Client request persisted $persist")
                 Future.successful(Created(Json.toJson(persist)))
