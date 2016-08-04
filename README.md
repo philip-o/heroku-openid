@@ -1,33 +1,18 @@
-# scala/play-getting-started
+# heroku-openid
 
-A barebones Scala app (using the Play framework), which can easily be deployed to Heroku.  
+A Scala Play app to be used to test our implementation of openid connect
 
-This application support the [Getting Started with Scala/Play on Heroku](https://devcenter.heroku.com/articles/getting-started-with-scala) article - check it out.
-
-## Running Locally
+## Run Locally
 
 Make sure you have Play and sbt installed.  Also, install the [Heroku Toolbelt](https://toolbelt.heroku.com/).
 
 ```sh
-$ git clone https://github.com/heroku/scala-getting-started.git
-$ cd scala-getting-started
+$ git clone https://github.com/philip-o/heroku-openid.git
+$ cd heroku-openid
 $ sbt compile stage
-$ heroku local
+$ heroku local web
 ```
 
-Your app should now be running on [localhost:5000](http://localhost:5000/).
+## Live URL
 
-## Deploying to Heroku
-
-```sh
-$ heroku create
-$ git push heroku master
-$ heroku open
-```
-
-## Documentation
-
-For more information about using Play and Scala on Heroku, see these Dev Center articles:
-
-- [Play and Scala on Heroku](https://devcenter.heroku.com/categories/language-support#scala-and-play)
-
+The application is currently running at https://gentle-shore-75187.herokuapp.com/

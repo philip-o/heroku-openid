@@ -1,4 +1,4 @@
-name := """play-getting-started"""
+name := "heroku-openid"
 
 version := "1.0-SNAPSHOT"
 
