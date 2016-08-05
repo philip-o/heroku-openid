@@ -1,0 +1,14 @@
+@(loginForm:Form[User])(implicit request: Request[_])
+
+@import helper._
+@import play.api.Play.current
+@import play.api.i18n.Messages.Implicits._
+
+<title>Demo OpenID Connect Login</title>
+
+@form(action = routes.AuthorisationController.processLogin()) {
+    <h1>OpenID Connect Login</h1>
+    @inputText(loginForm("Username"))
+    @inputText(loginForm("Password"))
+
+}

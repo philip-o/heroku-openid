@@ -1,15 +1,13 @@
 package controllers
 
 import models.Configuration
-import play.api.Play
-import play.api.libs.json.{JsValue, Json}
-import play.api.mvc.{Action, AnyContent, Request}
-import play.api.mvc.Results._
+import play.api.libs.json.Json
+import play.api.mvc.{Action, Controller}
 import utils.OpenIDConnectUtil
 
 import scala.concurrent.Future
 
-trait DiscoveryController {
+trait DiscoveryController extends Controller {
 
   def configuration() = Action.async {
     implicit request =>

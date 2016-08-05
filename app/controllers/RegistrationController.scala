@@ -2,23 +2,23 @@ package controllers
 
 import java.util.UUID
 
-import models.ClientRegistration
+import models.{ClientRegistration, ClientRequest}
 import play.api.Logger
 import play.api.libs.json.Json
-import play.api.mvc.Action
+import play.api.mvc.{Action, Controller}
 import play.api.mvc.BodyParsers.parse
 import play.api.mvc.Results._
 import utils.OpenIDConnectUtil
 
 import scala.concurrent.Future
 
-trait RegistrationController extends JsonController {
+trait RegistrationController extends JsonController with Controller {
 
   val discoveryController : DiscoveryController
 
   def register() = Action.async(parse.json) {
     implicit request =>
-      withJsonBody[ClientRegistration] {
+      withJsonBody[ClientRequest] {
         clientRequest =>
           val clientRegistration = new ClientRegistration(clientRequest.redirect_uris, clientRequest.client_name,
             clientRequest.jwks_uri, clientRequest.id_token_signed_response_alg, clientRequest.id_token_encrypted_response_alg,
