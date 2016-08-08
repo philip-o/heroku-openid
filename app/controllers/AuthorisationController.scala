@@ -12,7 +12,8 @@ trait AuthorisationController extends Controller {
 
   val discoveryController : DiscoveryController
 
-  def loginForm = Form(mapping ("Username" -> nonEmptyText,"Password" -> nonEmptyText)(User.apply)(User.unapply))
+  def loginForm = Form(mapping ("Username" -> nonEmptyText, "Password" -> nonEmptyText,"State" -> text,"Consumer" -> text,
+  "ClientId" -> text)(User.apply)(User.unapply))
 
   def processAuthorisePostRequest() = Action {
     implicit request =>
@@ -37,9 +38,8 @@ trait AuthorisationController extends Controller {
       case true  =>
         val result = verifyClientMatchesConfig(responseType, scope, clientId, returnAddress)
         result match {
-          case "valid" => //persist details to return
-            val cacheId = UUID.randomUUID.toString
-            Ok(views.html.login(loginForm))
+          case "valid" =>
+            Ok(views.html.login(loginForm,Some(state),Some(returnAddress),Some(clientId)))
           case _ =>
             params = params + ("error" -> Seq("invalid_request")) + ("error_desription" -> Seq(result))
             Redirect(returnAddress, params)
@@ -53,7 +53,11 @@ trait AuthorisationController extends Controller {
     implicit request =>
       loginForm.bindFromRequest().fold(
         errors => BadRequest(views.html.login(errors)),
-        success => Ok("Success")
+        success => { val id = UUID.randomUUID.toString
+          OpenIDConnectUtil.users.put(id, success)
+          val params = Map("code" -> Seq(id), "state" -> Seq(success.state))
+          Redirect(success.consumer, params)
+        }
       )
   }
 

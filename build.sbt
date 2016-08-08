@@ -11,8 +11,8 @@ libraryDependencies ++= Seq(
   cache,
   "org.postgresql" % "postgresql" % "9.4-1201-jdbc41",
   ws,
-  "org.jscience" % "jscience" % "4.3.1"
-
+  "org.jscience" % "jscience" % "4.3.1",
+  "org.bitbucket.b_c" % "jose4j" % "0.5.0"
 )
 
 libraryDependencies <+= scalaVersion("org.scala-lang" % "scala-compiler" % _ )

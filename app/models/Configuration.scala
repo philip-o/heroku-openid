@@ -81,5 +81,4 @@ object ClientRegRequestError {
   implicit val formats = Json.format[ClientRegRequestError]
 }
 
-case class User(username: String, password: String)
-
+case class User(username: String, password: String, state : String, consumer : String, client_id : String)

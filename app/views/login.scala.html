@@ -1,4 +1,4 @@
-@(loginForm:Form[User])(implicit request: Request[_])
+@(loginForm:Form[User], state: Option[String]=None, consumer: Option[String]=None,client_id: Option[String]=None)(implicit request: Request[_])
 
 @import helper._
 @import play.api.Play.current
@@ -10,5 +10,7 @@
     <h1>OpenID Connect Login</h1>
     @inputText(loginForm("Username"))
     @inputText(loginForm("Password"))
-
+    <input type="text" name="state" id="state" hidden="true" value="@state"/>
+    <input type="text" name="consumer" id="consumer" hidden="true" value="@consumer"/>
+    <input type="text" name="client_id" id="client_id" hidden="true" value="@client_id"/>
 }
