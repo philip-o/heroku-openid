@@ -35,10 +35,6 @@ trait TokenEndpointController {
         Ok(Json.toJson(TokenSuccessResponse(id_token = OpenIDConnectUtil.createToken(found))))
     }
   }
-
-  private def signingKeys = {
-
-  }
 }
 
 object TokenEndpointController extends TokenEndpointController

@@ -32,7 +32,8 @@ trait DiscoveryController extends Controller {
   }
 
   private[controllers] def publicKey() = {
-    Json.parse("""{"keys":[{"alg": "RS256","e": "AQAB","n": "iwylWnEtNvWQTnnU4-u51h_J0EqDfgia73Ddk5z3V9bX7ToqmXwFuvbDkjcUR97_illEfhiO_BS0-JIA9vX9IO4jRu9P9EQLvHh3ddmkDgV_VF_STWTBdvz1NQ6TPcYJwD3PQQkV70Sw5D86y-lokBkioO2tE_DKgf5OHg8GJdYM1TPSAjvXZhpg7qYDMpqfC3s0k3ztW-urWFvJx2uwjSIY3X3HEhpSk45a8aESYHnGVH9FkMB4ZsdGlvFTXsh-A1UkVXWZAd2j4uOsoB5moAwnmfIjHWTfEHjvBzIhdlXVXELn7k8pVdY4SzCDAVtWeqblsS75MfZgELWJPJKYkQ","kty": "RSA","use": "sig","kid": "Demo Keys"}]}""")
+    //Generated using https://mkjwk.org/
+    Json.parse("""{"keys":[{"alg": "RS256","e": "AQAB","n": "rvnioIqZaydxDwgSzHojZAf5uMAWtDvI15Azy8yxwAvkpYDe1wKAifOhKVxSsFa9pc88aJFFVMe9rkDumVS_DNrT0LmlBqQAV2sklYTd7jq5yJh3HuI83VXqTgQ1ITqaACdo_nwZ7NP__LhSHYtxGHoM4qac56z4GrTvph67jw9NdSKHwDtQFoQid6f9kXXzcmC8T7t957eZbVyJ1eexm1eGmxpq2ira5-02YF-fuqzyAZN8idcyXYq4nnXfbCmoM8JEBtzcZLw3uYaL3cGEd1n0VcbkqiBBGRDLCVlqe_PhOkVtQfuNDIuA-ikhmd4o_OzjCSGPrrnR6y0F6dpLYw","kty": "RSA","use": "sig","kid": "Demo Keys"}]}""")
   }
 
   def key() = Action.async {
