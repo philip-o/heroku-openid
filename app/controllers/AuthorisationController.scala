@@ -28,17 +28,17 @@ trait AuthorisationController extends Controller {
 
   def processAuthoriseGetRequest = Action {
     implicit request =>
-      val response_type = extractFromRequest("response_type")
-      val scope = extractFromRequest("scope")
-      val clientId = extractFromRequest("client_id")
+      val response_type = extractFromRequest("response_type").head
+      val scope = extractFromRequest("scope").head
+      val clientId = extractFromRequest("client_id").head
       val state = request.session.get("state").getOrElse("")
-      val redirectURL = extractFromRequest("redirect_uri")
+      val redirectURL = extractFromRequest("redirect_uri").head
 
       processRequest(response_type, scope, clientId, state, redirectURL)
   }
 
   private def extractFromRequest(property : String)(implicit request : Request[AnyContent]) = {
-    request.session.get(property).getOrElse(throw new SecurityException(s"Mandatory parameter, $property, missing from request"))
+    request.queryString.get(property).getOrElse(throw new SecurityException(s"Mandatory parameter, $property, missing from request"))
   }
 
   private def extractParam(param : String)(implicit request: Request[AnyContent]) = {
