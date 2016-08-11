@@ -12,7 +12,7 @@ trait DiscoveryController extends Controller {
   def configuration() = Action.async {
     implicit request =>
       request.secure match {
-        case true => Future.successful(Ok(Json.toJson(config(OpenIDConnectUtil.loadConfig("oidc.host").headOption.head))))
+        case true => Future.successful(Ok(Json.toJson(config("morning-chamber-29407.herokuapp.com"))))
         case false => Future.successful(BadRequest(Json.parse("""{"message":"your request was not secure"}""")))
       }
   }
