@@ -12,7 +12,7 @@ trait AuthorisationController extends Controller {
 
   val discoveryController : DiscoveryController
 
-  def loginForm = Form(mapping ("Username" -> nonEmptyText, "Password" -> nonEmptyText,"State" -> text,"Consumer" -> text,
+  def loginForm = Form(mapping ("Username" -> text, "Password" -> text,"State" -> text,"Consumer" -> text,
   "ClientId" -> text)(User.apply)(User.unapply))
 
   def processAuthorisePostRequest() = Action {

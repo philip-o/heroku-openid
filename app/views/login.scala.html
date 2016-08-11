@@ -9,8 +9,9 @@
 @form(action = routes.AuthorisationController.processLogin()) {
     <h1>OpenID Connect Login</h1>
     @inputText(loginForm("Username"))
-    @inputText(loginForm("Password"))
+    @inputPassword(loginForm("Password"))
     <input type="text" name="state" id="state" hidden="true" value="@state"/>
     <input type="text" name="consumer" id="consumer" hidden="true" value="@consumer"/>
     <input type="text" name="client_id" id="client_id" hidden="true" value="@client_id"/>
+    <button class="button" type="submit" id="login-button">Login</button>
 }
