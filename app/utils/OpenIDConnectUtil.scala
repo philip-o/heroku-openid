@@ -53,7 +53,6 @@ object OpenIDConnectUtil {
     val pair = gen.genKeyPair
     val pub = pair.getPublic.asInstanceOf[RSAPublicKey]
     val pri = pair.getPrivate.asInstanceOf[RSAPrivateKey]
-    val rsa = new Builder()
     val signer = new RSASSASigner(pri)
 
     val jws = new JWSObject(new JWSHeader(JWSAlgorithm.RS256),new Payload(claims.toJson))
