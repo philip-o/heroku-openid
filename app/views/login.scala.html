@@ -6,7 +6,7 @@
 
 <title>Demo OpenID Connect Login</title>
 
-@form(action = routes.AuthorisationController.processLogin()) {
+@form(action = routes.AuthorisationController.processLogin) {
     <h1>OpenID Connect Login</h1>
     @inputText(loginForm("Username"))
     @inputPassword(loginForm("Password"))

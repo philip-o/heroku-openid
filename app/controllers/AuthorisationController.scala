@@ -12,8 +12,8 @@ trait AuthorisationController extends Controller {
 
   val discoveryController : DiscoveryController
 
-  def loginForm = Form(mapping ("Username" -> text, "Password" -> text,"State" -> text,"Consumer" -> text,
-  "ClientId" -> text)(User.apply)(User.unapply))
+  def loginForm = Form(mapping ("Username" -> text, "Password" -> text,"state" -> text,"consumer" -> text,
+  "client_id" -> text)(User.apply)(User.unapply))
 
   def processAuthorisePostRequest() = Action {
     implicit request =>
@@ -64,11 +64,13 @@ trait AuthorisationController extends Controller {
     }
   }
 
-  def processLogin = Action(parse.form(loginForm)) {
+  def processLogin = Action {
     implicit request =>
       loginForm.bindFromRequest().fold(
-        errors => BadRequest(views.html.login(errors)),
-        success => { val id = UUID.randomUUID.toString
+        errors =>
+          BadRequest(views.html.login(errors)),
+        success => {
+          val id = UUID.randomUUID.toString
           OpenIDConnectUtil.users.put(id, success)
           val params = Map("code" -> Seq(id), "state" -> Seq(success.state))
           Redirect(success.consumer, params)
