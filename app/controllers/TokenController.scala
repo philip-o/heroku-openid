@@ -32,7 +32,7 @@ trait TokenEndpointController {
     option match {
       case None => BadRequest(Json.toJson(TokenErrorResponse("invalid_request")))
       case Some(found) =>
-        Ok(Json.toJson(TokenSuccessResponse(id_token = OpenIDConnectUtil.createToken(found))))
+        Ok(Json.toJson(TokenSuccessResponse(id_token = OpenIDConnectUtil.createIDToken(found))))
     }
   }
 }

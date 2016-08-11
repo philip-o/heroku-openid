@@ -26,6 +26,21 @@ trait AuthorisationController extends Controller {
       processRequest(response_type, scope, clientId, state, redirectURL)
   }
 
+  def processAuthoriseGetRequest = Action {
+    implicit request =>
+      val response_type = extractFromRequest("response_type")
+      val scope = extractFromRequest("scope")
+      val clientId = extractFromRequest("client_id")
+      val state = request.session.get("state").getOrElse("")
+      val redirectURL = extractFromRequest("redirect_uri")
+
+      processRequest(response_type, scope, clientId, state, redirectURL)
+  }
+
+  private def extractFromRequest(property : String)(implicit request : Request[AnyContent]) = {
+    request.session.get(property).getOrElse(throw new SecurityException(s"Mandatory parameter, $property, missing from request"))
+  }
+
   private def extractParam(param : String)(implicit request: Request[AnyContent]) = {
     request.body.asFormUrlEncoded.flatMap(_.get(param)).flatMap(_.headOption)
       .getOrElse(throw new SecurityException(s"Mandatory parameter, $param, missing from request"))
