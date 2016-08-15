@@ -15,12 +15,11 @@ trait TokenEndpointController {
       val redirect_uri = extractParam("redirect_uri")
 
       //validate redirect_uri is the same as the original request
-      grant_type match {
-        case "authorization_code" => createResponse(code, redirect_uri).withHeaders(
-          "Cache-Control" -> "no-store","Pragma" -> "no-cache")
-        case _ => BadRequest(Json.toJson(TokenErrorResponse("invalid_tag"))).withHeaders(
-          "Cache-Control" -> "no-store","Pragma" -> "no-cache")
+      val resp = grant_type match {
+        case "authorization_code" => createResponse(code, redirect_uri)
+        case _ => BadRequest(Json.toJson(TokenErrorResponse("invalid_tag")))
       }
+      resp.withHeaders("Cache-Control" -> "no-store","Pragma" -> "no-cache")
   }
 
   def extractParam(param : String)(implicit request: Request[AnyContent]) = {
@@ -28,11 +27,12 @@ trait TokenEndpointController {
   }
 
   private def createResponse(authCode : String, redirect_uri : String)(implicit request: Request[AnyContent]) = {
-    val option = OpenIDConnectUtil.users.get(authCode)
+    val option = OpenIDConnectUtil.users.remove(authCode)
     option match {
       case None => BadRequest(Json.toJson(TokenErrorResponse("invalid_request")))
-      case Some(found) =>
-        Ok(Json.toJson(TokenSuccessResponse(id_token = OpenIDConnectUtil.createIDToken(found))))
+      case Some(found) => val token = TokenSuccessResponse(id_token = OpenIDConnectUtil.createIDToken(found))
+        OpenIDConnectUtil.users.put(token.access_token,found)
+        Ok(Json.toJson(token))
     }
   }
 }

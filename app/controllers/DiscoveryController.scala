@@ -30,16 +30,17 @@ trait DiscoveryController extends Controller {
       OpenIDConnectUtil.loadConfig("oidc.encryption-encodings-supported"),
       OpenIDConnectUtil.loadConfig("oidc.encryption-algorithms-supported"), OpenIDConnectUtil.loadConfig("oidc.claims-supported"))
   }
-
-  private[controllers] def publicKey() = {
-    //Generated using https://mkjwk.org/
-    Json.parse("""{"keys":[{"alg": "RS256","e": "AQAB","n": "rvnioIqZaydxDwgSzHojZAf5uMAWtDvI15Azy8yxwAvkpYDe1wKAifOhKVxSsFa9pc88aJFFVMe9rkDumVS_DNrT0LmlBqQAV2sklYTd7jq5yJh3HuI83VXqTgQ1ITqaACdo_nwZ7NP__LhSHYtxGHoM4qac56z4GrTvph67jw9NdSKHwDtQFoQid6f9kXXzcmC8T7t957eZbVyJ1eexm1eGmxpq2ira5-02YF-fuqzyAZN8idcyXYq4nnXfbCmoM8JEBtzcZLw3uYaL3cGEd1n0VcbkqiBBGRDLCVlqe_PhOkVtQfuNDIuA-ikhmd4o_OzjCSGPrrnR6y0F6dpLYw","kty": "RSA","use": "sig","kid": "Demo Keys"}]}""")
-  }
-
-  def key() = Action.async {
-    implicit request =>
-      Future.successful(Ok(publicKey()))
-  }
 }
 
 object DiscoveryController extends DiscoveryController
+
+trait PublicKeyController extends Controller {
+
+  def showKey = Action.async {
+    implicit request =>
+      Future.successful(Ok(Json.toJson(OpenIDConnectUtil.constructKey())))
+  }
+
+}
+
+object PublicKeyController extends PublicKeyController

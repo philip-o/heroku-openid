@@ -5,8 +5,8 @@ import java.security.interfaces.{RSAPrivateKey, RSAPublicKey}
 
 import com.nimbusds.jose._
 import com.nimbusds.jose.crypto.RSASSASigner
-import com.nimbusds.jose.jwk.RSAKey.Builder
-import models.{ClientRegistration, Configuration, User}
+import com.nimbusds.jose.util.Base64URL
+import models._
 import org.jose4j.jwt.JwtClaims
 import play.api.Play
 
@@ -16,6 +16,12 @@ object OpenIDConnectUtil {
 
   val clients = Map[String,ClientRegistration]()
   val users = Map[String, User]()
+  val gen = KeyPairGenerator.getInstance("RSA")
+  gen.initialize(1024)
+  val pair = gen.genKeyPair
+  val pub = pair.getPublic.asInstanceOf[RSAPublicKey]
+  val pri = pair.getPrivate.asInstanceOf[RSAPrivateKey]
+  val signer = new RSASSASigner(pri)
 
   def checkEncoding(config : Configuration, request : ClientRegistration) = {
     if(config.id_token_encryption_alg_values_supported.contains(request.id_token_encrypted_response_alg) &&
@@ -35,7 +41,7 @@ object OpenIDConnectUtil {
 
   private def createClaims(user : User) = {
     val claims = new JwtClaims
-    claims.setIssuer("morning-chamber-29407.herokuapp.com")
+    claims.setIssuer("https://morning-chamber-29407.herokuapp.com")
     claims.setAudience(user.client_id)
     claims.setExpirationTimeMinutesInTheFuture(240)
     claims.setGeneratedJwtId()
@@ -46,31 +52,13 @@ object OpenIDConnectUtil {
   }
 
   def createIDToken(user : User) = {
-
     val claims = createClaims(user)
-    val gen = KeyPairGenerator.getInstance("RSA")
-    gen.initialize(512)
-    val pair = gen.genKeyPair
-    val pub = pair.getPublic.asInstanceOf[RSAPublicKey]
-    val pri = pair.getPrivate.asInstanceOf[RSAPrivateKey]
-    val signer = new RSASSASigner(pri)
-
-    val jws = new JWSObject(new JWSHeader(JWSAlgorithm.RS256),new Payload(claims.toJson))
+    val jws = new JWSObject(new JWSHeader(JWSAlgorithm.RS512),new Payload(claims.toJson))
     jws.sign(signer)
-
-//    val signed = SignedJWT.parse(jws.serialize)
-//    val verify = new RSASSAVerifier(pub)
-//    println(s"Validated ${signed.verify(verify)}")
-//
-//    println(s"n: ${Base64URL.encode(pub.getModulus)}")
-//    println(s"e: ${Base64URL.encode(pub.getPublicExponent)}")
-//    println(s"kty: ${pub.getAlgorithm}")
-//    println(s"alg: ${pub.getFormat}")
-
     jws.serialize
   }
 
-  def main(args: Array[String]) = {
-    println(OpenIDConnectUtil.createIDToken(User("philip","password","state","consumer","client_id")))
+  def constructKey() = {
+    Keys(Array(PublicKey(n = Base64URL.encode(pub.getModulus).toString)))
   }
 }

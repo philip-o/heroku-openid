@@ -82,3 +82,19 @@ object ClientRegRequestError {
 }
 
 case class User(username: String, password: String, state : String, consumer : String, client_id : String)
+
+case class PublicKey(e : String = "AQAB",
+                     kty: String = "RSA",
+                     use : String = "sig",
+                     alg : String = "RS512",
+                     n : String)
+
+object PublicKey {
+  implicit val formats = Json.format[PublicKey]
+}
+
+case class Keys(keys : Array[PublicKey])
+
+object Keys {
+  implicit val formats = Json.format[Keys]
+}
