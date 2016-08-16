@@ -11,7 +11,7 @@ GET     /authorise                            controllers.AuthorisationControlle
 POST    /authorize                            controllers.AuthorisationController.processAuthorisePostRequest
 GET     /authorize                            controllers.AuthorisationController.processAuthoriseGetRequest
 POST    /login                                controllers.AuthorisationController.processLogin
-GET     /token                                controllers.TokenEndpointController.process
+POST     /token                                controllers.TokenEndpointController.process
 GET     /jwks.json                            controllers.PublicKeyController.showKey
 
 # Map static resources from the /public folder to the /assets URL path
