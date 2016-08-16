@@ -1,13 +1,13 @@
 package controllers
 
 import play.api.libs.json.Json
-import play.api.mvc.Action
+import play.api.mvc.{Action, Controller}
 import play.api.mvc.Results.{BadRequest, Ok}
 import utils.OpenIDConnectUtil
 
-trait UserinfoController {
+trait UserinfoController extends Controller {
 
-  def userinfo() = Action {
+  def userinfo = Action {
     implicit request =>
       var params : Map[String,Seq[String]] = Map("error" -> Seq("invalid_token"))
       request.headers.headers.filter(obj => obj._1.equalsIgnoreCase("Authorization")).headOption match {
@@ -25,4 +25,4 @@ trait UserinfoController {
   }
 }
 
-object UserinfoController
+object UserinfoController extends UserinfoController
