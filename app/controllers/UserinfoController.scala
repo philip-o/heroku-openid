@@ -23,7 +23,7 @@ trait UserinfoController extends Controller {
           case Some(user) => Ok(Json.parse(s"""{\"user\":\"${user.username}\",\"email\":\"${user.username}@test.com\",\"sub\":\"${user.username}\"}"""))
         }
         case None =>
-          params += ("error_description" -> Seq("No authorisation header provided"))
+          params += ("error_description" -> Seq("No authorisation header provided in request"))
           Logger.info(s"No authorisation header provided")
           BadRequest(params)
       }
