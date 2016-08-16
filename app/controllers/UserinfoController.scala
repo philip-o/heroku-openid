@@ -16,7 +16,7 @@ trait UserinfoController extends Controller {
       request.headers.headers.filter(obj => obj._1.equalsIgnoreCase("Authorization")).headOption match {
         case Some(header) =>
           println(s"Authorization header value: ${header._2}")
-          OpenIDConnectUtil.users.get(header._2.replace("Authorization ","")) match {
+          OpenIDConnectUtil.users.get(header._2.replace("Bearer ","")) match {
           case None => params += ("error_description" -> Seq("Invalid token"))
             Logger.info(s"Invalid token")
             BadRequest(params)
