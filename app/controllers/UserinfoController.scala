@@ -20,7 +20,7 @@ trait UserinfoController extends Controller {
           case None => params += ("error_description" -> Seq("Invalid token"))
             Logger.info(s"Invalid token")
             BadRequest(params)
-          case Some(user) => Ok(Json.parse(s"""{\"user\":\"${user.username}\",\"email\":\"${user.username}@test.com\"}"""))
+          case Some(user) => Ok(Json.parse(s"""{\"user\":\"${user.username}\",\"email\":\"${user.username}@test.com\",\"sub\":\"${user.username}\"}"""))
         }
         case None =>
           params += ("error_description" -> Seq("No authorisation header provided"))

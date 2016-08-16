@@ -16,6 +16,7 @@ object OpenIDConnectUtil {
 
   val clients = Map[String,ClientRegistration]()
   val users = Map[String, User]()
+  val tokens = Map[String,TokenSuccessResponse]()
   val gen = KeyPairGenerator.getInstance("RSA")
   gen.initialize(1024)
   val pair = gen.genKeyPair
