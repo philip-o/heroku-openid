@@ -31,7 +31,7 @@ trait AuthorisationController extends Controller {
       val response_type = extractFromRequest("response_type").head
       val scope = extractFromRequest("scope").head
       val clientId = extractFromRequest("client_id").head
-      val state = request.session.get("state").getOrElse("")
+      val state = request.queryString.get("state").head.headOption.getOrElse("")
       val redirectURL = extractFromRequest("redirect_uri").head
 
       processRequest(response_type, scope, clientId, state, redirectURL)
@@ -54,7 +54,7 @@ trait AuthorisationController extends Controller {
         val result = verifyClientMatchesConfig(responseType, scope, clientId, returnAddress)
         result match {
           case "valid" =>
-            Ok(views.html.login(loginForm,Some(state),Some(returnAddress),Some(clientId)))
+            Ok(views.html.login(loginForm.fill(new User("","",state,returnAddress,clientId))))
           case _ =>
             params = params + ("error" -> Seq("invalid_request")) + ("error_desription" -> Seq(result))
             Redirect(returnAddress, params)

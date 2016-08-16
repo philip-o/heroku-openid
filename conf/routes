@@ -8,6 +8,8 @@ GET     /.well-known/openid-configuration     controllers.DiscoveryController.co
 POST    /register                             controllers.RegistrationController.register
 POST    /authorise                            controllers.AuthorisationController.processAuthorisePostRequest
 GET     /authorise                            controllers.AuthorisationController.processAuthoriseGetRequest
+POST    /authorize                            controllers.AuthorisationController.processAuthorisePostRequest
+GET     /authorize                            controllers.AuthorisationController.processAuthoriseGetRequest
 POST    /login                                controllers.AuthorisationController.processLogin
 GET     /jwks.json                            controllers.PublicKeyController.showKey
 
