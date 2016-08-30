@@ -71,7 +71,6 @@ trait AuthorisationController extends Controller {
         errors =>
           BadRequest(views.html.login(errors)),
         success => {
-          Logger.info(s"Password ${success.password}")
           val id = UUID.randomUUID.toString
           OpenIDConnectUtil.users.put(id, success)
           val params = Map("code" -> Seq(id), "state" -> Seq(success.state))
