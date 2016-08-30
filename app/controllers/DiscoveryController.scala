@@ -20,15 +20,15 @@ trait DiscoveryController extends Controller {
   private[controllers] def config(host : String = "") = {
     val issuer = s"https://${host}"
     Configuration(issuer, s"$issuer/authorise", s"$issuer/token", s"$issuer/userinfo", s"$issuer/jwks.json",
-      s"$issuer/register", OpenIDConnectUtil.loadConfig("oidc.scopes-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.response-types-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.subject-types-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.signing-algorithms-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.encryption-encodings-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.encryption-algorithms-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.signing-algorithms-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.encryption-encodings-supported"),
-      OpenIDConnectUtil.loadConfig("oidc.encryption-algorithms-supported"), OpenIDConnectUtil.loadConfig("oidc.claims-supported"))
+      s"$issuer/register", OpenIDConnectUtil.loadConfigSeq("oidc.scopes-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.response-types-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.subject-types-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.signing-algorithms-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.encryption-encodings-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.encryption-algorithms-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.signing-algorithms-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.encryption-encodings-supported"),
+      OpenIDConnectUtil.loadConfigSeq("oidc.encryption-algorithms-supported"), OpenIDConnectUtil.loadConfigSeq("oidc.claims-supported"))
   }
 }
 

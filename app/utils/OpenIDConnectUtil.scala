@@ -9,14 +9,13 @@ import com.nimbusds.jose.util.Base64URL
 import models._
 import org.jose4j.jwt.JwtClaims
 import play.api.Play
-
+import play.api.Play.current
 import scala.collection.mutable.Map
 
 object OpenIDConnectUtil {
 
   val clients = Map[String,ClientRegistration]()
   val users = Map[String, User]()
-  val tokens = Map[String,TokenSuccessResponse]()
   val gen = KeyPairGenerator.getInstance("RSA")
   gen.initialize(1024)
   val pair = gen.genKeyPair
@@ -35,10 +34,12 @@ object OpenIDConnectUtil {
     else {"encoding_or_algoirthm_unsupported" }
   }
 
-  def loadConfig(property : String) = {
-    import play.api.Play.current
+  def loadConfigSeq(property : String) =
     Play.configuration.getStringSeq(property).getOrElse(throw new RuntimeException(s"Unable to find property $property"))
-  }
+
+
+  def loadConfig(property : String) =
+    Play.configuration.getString(property).getOrElse(throw new RuntimeException(s"Unable to find property $property"))
 
   private def createClaims(user : User) = {
     val claims = new JwtClaims

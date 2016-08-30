@@ -3,7 +3,6 @@ package controllers
 import play.api.Logger
 import play.api.libs.json.Json
 import play.api.mvc.{Action, Controller}
-import play.api.mvc.Results.{BadRequest, Ok}
 import utils.OpenIDConnectUtil
 
 trait UserinfoController extends Controller {
@@ -12,15 +11,14 @@ trait UserinfoController extends Controller {
     implicit request =>
 
       var params : Map[String,Seq[String]] = Map("error" -> Seq("invalid_token"))
-      Logger.info(s"Headers: ${request.headers.headers}")
-      request.headers.headers.filter(obj => obj._1.equalsIgnoreCase("Authorization")).headOption match {
+      request.headers.headers.find(obj => obj._1.equalsIgnoreCase("Authorization")) match {
         case Some(header) =>
           println(s"Authorization header value: ${header._2}")
           OpenIDConnectUtil.users.get(header._2.replace("Bearer ","")) match {
           case None => params += ("error_description" -> Seq("Invalid token"))
             Logger.info(s"Invalid token")
             BadRequest(params)
-          case Some(user) => Ok(Json.parse(s"""{\"user\":\"${user.username}\",\"email\":\"${user.username}@test.com\",\"sub\":\"${user.username}\"}"""))
+          case Some(user) => Ok(Json.parse(s"""{"user":"${user.username}","email":"${user.username}@test.com","sub":"${user.username}"}"""))
         }
         case None =>
           params += ("error_description" -> Seq("No authorisation header provided in request"))

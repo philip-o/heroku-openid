@@ -40,7 +40,6 @@ trait TokenEndpointController {
         Logger.info("User found")
         val token = TokenSuccessResponse(id_token = OpenIDConnectUtil.createIDToken(found))
         OpenIDConnectUtil.users.put(token.access_token,found)
-        OpenIDConnectUtil.tokens.put(token.access_token,token)
         Ok(Json.toJson(token))
     }
   }

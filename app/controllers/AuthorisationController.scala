@@ -3,6 +3,7 @@ package controllers
 import java.util.UUID
 
 import models.User
+import play.api.Logger
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.mvc.{Action, AnyContent, Controller, Request}
@@ -70,6 +71,7 @@ trait AuthorisationController extends Controller {
         errors =>
           BadRequest(views.html.login(errors)),
         success => {
+          Logger.info(s"Password ${success.password}")
           val id = UUID.randomUUID.toString
           OpenIDConnectUtil.users.put(id, success)
           val params = Map("code" -> Seq(id), "state" -> Seq(success.state))

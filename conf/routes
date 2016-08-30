@@ -3,7 +3,6 @@
 # ~~~~
 
 # Home page
-GET     /                                     controllers.Application.index
 GET     /.well-known/openid-configuration     controllers.DiscoveryController.configuration
 POST    /register                             controllers.RegistrationController.register
 POST    /authorise                            controllers.AuthorisationController.processAuthorisePostRequest
@@ -11,7 +10,7 @@ GET     /authorise                            controllers.AuthorisationControlle
 POST    /authorize                            controllers.AuthorisationController.processAuthorisePostRequest
 GET     /authorize                            controllers.AuthorisationController.processAuthoriseGetRequest
 POST    /login                                controllers.AuthorisationController.processLogin
-POST     /token                               controllers.TokenEndpointController.process
+POST    /token                                controllers.TokenEndpointController.process
 GET     /jwks.json                            controllers.PublicKeyController.showKey
 GET     /userinfo                             controllers.UserinfoController.userinfo
 
